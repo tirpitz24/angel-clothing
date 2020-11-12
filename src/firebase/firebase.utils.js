@@ -13,6 +13,7 @@ const config = {
     measurementId: "G-XZSYRV1KLB"
   };
 
+  //Creating userprofile in fbase
 export const createUserProfileDocument = async (userAuth, additionalData) => {
  if(!userAuth) return;
 

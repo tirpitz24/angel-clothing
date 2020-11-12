@@ -3,7 +3,7 @@ import './sign-in.styles.scss';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import { signInWithGoogle } from '../../firebase/firebase.utils';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -15,10 +15,31 @@ class SignIn extends React.Component {
         }
     }
 
-    handleSubmit = e => {
-        this.setState({ email: '', password: ''})
-
+    handleSubmit = async e => {
         e.preventDefault();
+
+        const { email, password } = this.state;
+        
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            this.setState({ 
+                email: '',
+                password: ''
+            })
+        } catch(error) {
+            console.log(error)
+            if(error.code === 'auth/too-many-requests') {
+                alert(error.message)
+            }
+
+            if(error.code === 'auth/wrong-password') {
+                alert('Wrong email or password')
+            }
+
+            if(error.code === 'auth/user-not-found') {
+                alert('User not found')
+            }
+        }
     };
 
     handleChange = e => {
