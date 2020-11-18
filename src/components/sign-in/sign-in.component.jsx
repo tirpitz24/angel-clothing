@@ -37,7 +37,7 @@ class SignIn extends React.Component {
             }
 
             if(error.code === 'auth/user-not-found') {
-                alert('User not found')
+                alert('Incorrect email or password')
             }
         }
     };
